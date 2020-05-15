@@ -30,9 +30,11 @@ module LengthPrefix (IO: S) = struct
 
 
 
-  let encode tok =
+  
 
-    let token = Cstruct.of_string tok in
+  let encode token =
+
+
     let len = Stdint.Uint64.of_int (Cstruct.len token) in
 
     Cstruct.concat [
@@ -42,8 +44,10 @@ module LengthPrefix (IO: S) = struct
       ]
 
 
+  let encode_string s =
+    Cstruct.of_string s |> encode
 
-  
+
   let read_frame io = 
     let open Lwt_result.Infix in 
 
