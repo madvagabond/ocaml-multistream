@@ -1,0 +1,8 @@
+(library
+ (public_name multistream)
+
+ (name multistream)
+  
+
+ (libraries cstruct lwt rresult varint stdint)
+)

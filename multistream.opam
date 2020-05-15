@@ -1,0 +1,39 @@
+opam-version: "2.0"
+maintainer: "Sam Riyad"
+authors: ["Sam Riyad"]
+tags: ["networking" "protocol" "libp2p"]
+license: "ISC"
+homepage: ""
+dev-repo: ""
+bug-reports: ""
+doc: ""
+build: [
+  ["dune" "subst" ] {pinned}
+  ["dune" "build" "-p" name "-j" jobs]
+  ["dune" "build" "-p" name "-j" jobs "@doc"] {with-doc}
+  ["dune" "runtest" "-p" name "-j" jobs] {with-test}
+]
+depends: [
+  "ocaml" {>= "4.02"}
+  "dune"
+  "rresult"
+  "cstruct"
+  "lwt"
+]
+
+
+synopsis: "An ocaml implementation of multistream-selet"
+description: """
+
+An Ocaml Implementation of the multistream-select protocol,
+
+It allows you to run multiple protocols on a single socket and negotiate which ones to use. 
+
+IE you can run FTP, HTTP, SSH, etc all on one channel, or use it as a light weight rpc protocol when paired with yamux 
+
+
+"""
+
+
+
+             
