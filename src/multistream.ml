@@ -116,7 +116,10 @@ module Make (IO: IO) = struct
     match route with
     | Some (_, cb) ->
 
-       cb io |> Lwt.map (fun () ->
+      let pl = LP.encode_string proto in
+      
+      IO.write io pl |> LP.io_error >>= fun _ ->
+      cb io |> Lwt.map (fun () ->
                     let opt = Some () in
                     Ok opt
                   ) 

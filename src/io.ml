@@ -35,7 +35,10 @@ module LengthPrefix (IO: S) = struct
   let encode token =
 
 
-    let len = Stdint.Uint64.of_int (Cstruct.len token) in
+    let len =
+      let size = (Cstruct.len token) + 1 in
+      Stdint.Uint64.of_int size
+    in
 
     Cstruct.concat [
         U64.to_cstruct len;
@@ -95,7 +98,8 @@ module LengthPrefix (IO: S) = struct
   
       else if token = proto then Lwt_result.return ()
 
-      else Lwt_result.fail `Protocol_mismatch
+      else
+        Lwt_result.fail `Protocol_mismatch
 
 
 

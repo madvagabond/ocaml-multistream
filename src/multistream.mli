@@ -20,4 +20,4 @@ module type S = sig
   
 end
 
-module Make: functor (Io: IO) -> S with type error =  [`IO_error of Io.error | `Protocol_mismatch | `Na | `Codec_error]
+module Make: functor (Io: IO) -> S with type error =  [`IO_error of Io.error | `Protocol_mismatch | `Na | `Codec_error] and type io = Io.t
