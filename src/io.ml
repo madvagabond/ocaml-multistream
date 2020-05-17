@@ -113,7 +113,9 @@ module LengthPrefix (IO: S) = struct
         let len = Stdint.Uint64.to_int vi in
         
         let (a, b) = Cstruct.split rest len in
-        let protos = protos @ [Cstruct.to_string a] in
+        let (c, _) = Cstruct.split a (len - 1) in  
+        
+        let protos = protos @ [c |> Cstruct.to_string] in
         aux protos b
 
       else

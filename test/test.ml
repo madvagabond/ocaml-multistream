@@ -75,7 +75,7 @@ let do_nothing _flow =
 
 let print_error =
   function
-  | Ok () -> print_endline "ok"
+  | Ok _ -> print_endline "ok"
   | Error `IO_error _ -> failwith "io_error"
   | Error `Codec_error -> failwith "codec error"
   | Error `Protocol_mismatch -> failwith "protocol mismatch"
@@ -93,12 +93,30 @@ let select_test _s () =
   MS.select cli "/nothing" >|= print_error
 
 
+let test_ls _s () =
+  let open Lwt.Infix in
+
+  let cli, srv = create_conn () in
+  let protos = ["/nothing"] in
+  let handler =  MS.handle srv [("/nothing", do_nothing) ] in
+  let _ = Lwt.async (fun () -> handler >|= print_error) in
+
+  MS.ls cli >|= fun res -> 
+  let _ = print_error res in
+  let supported = Result.get_ok res in
+  Alcotest.(check (list string)) "same protocols" protos supported 
+  
 
 
 let tests = [
-  Alcotest_lwt.test_case "protocol negotiation" `Quick select_test
+  Alcotest_lwt.test_case "protocol negotiation" `Quick select_test;
+  Alcotest_lwt.test_case "ls" `Quick test_ls  
 ]
+
+
+
 
 let _ =  Lwt_main.run @@ Alcotest_lwt.run "Multistream" [
     "mss-select", tests 
   ]
+
