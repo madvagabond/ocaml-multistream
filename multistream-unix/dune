@@ -1,0 +1,5 @@
+(library
+  (public_name multistream-unix)
+  (name multistream_unix)
+  (libraries multistream lwt multistream-mirage mirage-flow-unix)
+)
