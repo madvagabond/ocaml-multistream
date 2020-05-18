@@ -1,0 +1,6 @@
+(library
+  (public_name multistream-mirage)
+  (name multistream_mirage)
+
+  (libraries multistream mirage-flow mirage-channel lwt)
+)
